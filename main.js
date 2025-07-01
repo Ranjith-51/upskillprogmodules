@@ -65,7 +65,6 @@ function findNearbyEvents() {
     (pos) => {
       const userLat = pos.coords.latitude;
       const userLon = pos.coords.longitude;
-
       const nearby = events.filter(event => {
         const distance = getDistance(userLat, userLon, event.lat, event.lon);
         return distance <= 8;
@@ -86,7 +85,6 @@ function findNearbyEvents() {
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
   );
 }
-
 function getDistance(lat1, lon1, lat2, lon2) {
   const toRad = (deg) => deg * Math.PI / 180;
   const R = 6371;
@@ -143,7 +141,7 @@ window.addEventListener("load", () => {
 
 async function simulateFetchEvents() {
   const eventList = document.getElementById("nearbyEvents");
-  if (eventList) eventList.innerHTML = "<li>Loading events...</li>";
+  if (eventList) eventList.innerHTML += "<li>Loading events...</li>";
 
   try {
     const response = await fakeFetch();
@@ -158,7 +156,7 @@ async function simulateFetchEvents() {
 }
 
 function fakeFetch() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
         { name: "Mock Yoga Fest" },
