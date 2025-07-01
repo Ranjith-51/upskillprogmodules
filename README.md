@@ -37,7 +37,7 @@ A responsive, Bootstrap 5-based web portal built for managing and showcasing com
 ---
 
 ## 📂 Folder Structure
-
+```
 /project-root
 │
 ├── css/
@@ -61,7 +61,7 @@ A responsive, Bootstrap 5-based web portal built for managing and showcasing com
 ├── package.json # NPM configuration
 ├── package-lock.json
 └── README.md
-
+```
 ---
 
 ## ⚙️ Setup Instructions
