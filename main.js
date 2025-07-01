@@ -44,7 +44,7 @@ const events = [
   { name: "Vintage Craft Bazaar", lat: 13.0331, lon: 80.2690 },
   { name: "Indie Film Meetup", lat: 13.0797, lon: 80.2870 },
   { name: "Open Mic & Poetry Slam", lat: 13.0256, lon: 80.2789 },
-  { name: "Eco Walk & Birdwatch", lat: 13.0066, lon: 80.2340 },
+  { name: "Eco Walk & Bird watch", lat: 13.0066, lon: 80.2340 },
   { name: "Design Sprint Challenge", lat: 13.0506, lon: 80.2412 },
   { name: "Midnight Food Truck Fest", lat: 13.0820, lon: 80.2756 },
   { name: "Science Storytelling Night", lat: 13.0105, lon: 80.2414 },
@@ -65,11 +65,9 @@ function findNearbyEvents() {
     (pos) => {
       const userLat = pos.coords.latitude;
       const userLon = pos.coords.longitude;
-      console.log(`User location: ${userLat}, ${userLon}`);
-
       const nearby = events.filter(event => {
         const distance = getDistance(userLat, userLon, event.lat, event.lon);
-        return distance <= 15;
+        return distance <= 8;
       });
 
       if (nearby.length > 0) {
@@ -81,24 +79,18 @@ function findNearbyEvents() {
         list.innerHTML = "<li>No events found nearby.</li>";
       }
     },
-    (err) => {
-      list.innerHTML = `<li>Unable to access your location. (${err.message})</li>`;
+    () => {
+      list.innerHTML = "<li>Unable to access your location.</li>";
     },
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
   );
 }
-
 function getDistance(lat1, lon1, lat2, lon2) {
   const toRad = (deg) => deg * Math.PI / 180;
   const R = 6371;
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
-
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
+  const a = Math.sin(dLat/2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
