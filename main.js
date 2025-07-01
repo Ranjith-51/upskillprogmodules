@@ -14,7 +14,7 @@ function showConfirmation(event) {
   event.preventDefault();
   const name = document.getElementById("name").value;
   const output = document.getElementById("confirmation");
-  output.textContent = `Thank you, ${name}, your registration was received!`;
+  output.textContent = Thank you, ${name}, your registration was received!;
   output.style.display = "block";
 }
 
@@ -65,6 +65,7 @@ function findNearbyEvents() {
     (pos) => {
       const userLat = pos.coords.latitude;
       const userLon = pos.coords.longitude;
+      console.log(User location: ${userLat}, ${userLon});
 
       const nearby = events.filter(event => {
         const distance = getDistance(userLat, userLon, event.lat, event.lon);
@@ -73,15 +74,15 @@ function findNearbyEvents() {
 
       if (nearby.length > 0) {
         list.innerHTML = nearby.map(e => {
-          const mapsLink = `https://www.google.com/maps/search/?api=1&query=${e.lat},${e.lon}`;
-          return `<li><a href="${mapsLink}" target="_blank">${e.name}</a></li>`;
+          const mapsLink = https://www.google.com/maps/search/?api=1&query=${e.lat},${e.lon};
+          return <li><a href="${mapsLink}" target="_blank">${e.name}</a></li>;
         }).join("");
       } else {
         list.innerHTML = "<li>No events found nearby.</li>";
       }
     },
-    () => {
-      list.innerHTML = "<li>Unable to access your location.</li>";
+    (err) => {
+      list.innerHTML = <li>Unable to access your location. (${err.message})</li>;
     },
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
   );
@@ -92,7 +93,12 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat/2) * 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2) * 2;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
@@ -121,7 +127,7 @@ function showFee() {
 function countCharacters() {
   const feedback = document.getElementById("feedbackText").value;
   const charCount = document.getElementById("charCount");
-  charCount.textContent = `${feedback.length} characters`;
+  charCount.textContent = ${feedback.length} characters;
 }
 
 function enlargeImage() {
@@ -133,6 +139,7 @@ function confirmFeedback() {
   alert("Thanks for sharing your thoughts!");
   return false;
 }
+
 console.log("Welcome to the Community Portal");
 
 window.addEventListener("load", () => {
@@ -142,14 +149,14 @@ window.addEventListener("load", () => {
 
 async function simulateFetchEvents() {
   const eventList = document.getElementById("nearbyEvents");
-  if (eventList) eventList.innerHTML = "<li>Loading events...</li>";
+  if (eventList) eventList.innerHTML += "<li>Loading events...</li>";
 
   try {
     const response = await fakeFetch();
     const names = response.map(ev => ev.name).join(", ");
     console.log("Fetched events:", names);
     if (eventList) {
-      eventList.innerHTML += `<li>Fetched: ${response.length} events.</li>`;
+      eventList.innerHTML += <li>Fetched: ${response.length} events.</li>;
     }
   } catch (err) {
     console.error("Failed to fetch events:", err);
@@ -157,7 +164,7 @@ async function simulateFetchEvents() {
 }
 
 function fakeFetch() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
         { name: "Mock Yoga Fest" },
